@@ -11,7 +11,7 @@ audio: true
 hassio_api: true
 hassio_role: manager
 host_dbus: true
-image: homeassistant/{arch}-addon-ssh
+image: computeralex92/ha-ssh-fish/ha-ssh-fish
 ingress: true
 init: false
 map:
