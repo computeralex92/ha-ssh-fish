@@ -23,7 +23,8 @@ RUN \
 RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
 
 # Configure neovim as replacement for vi & vim
-RUN ln -sf $(which nvim) /usr/local/bin/vi /usr/local/bin/vim
+RUN ln -sf /usr/bin/nvim /usr/local/bin/vi \
+    && ln -sf /usr/bin/nvim /usr/local/bin/vi
 
 
 # Home Assistant CLI
