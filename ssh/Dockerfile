@@ -17,10 +17,14 @@ RUN \
         tmux \
         ttyd \
         neovim \
-        fish
+        fish 
 
 # Use bash as default shell
 RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
+
+# Configure neovim as replacement for vi & vim
+RUN ln -sf $(which nvim) /usr/local/bin/vi /usr/local/bin/vim
+
 
 # Home Assistant CLI
 ARG BUILD_ARCH
@@ -28,7 +32,7 @@ ARG HA_CLI_VERSION
 RUN curl -Lso /usr/bin/ha \
         "https://github.com/home-assistant/cli/releases/download/${HA_CLI_VERSION}/ha_${BUILD_ARCH}" \
     && chmod a+x /usr/bin/ha \
-    && /usr/bin/ha completion fish > /usr/share/fish/completions/ha.completion
+    && /usr/bin/ha completion fish > /usr/share/fish/completions/ha.fish
 
 # Copy data
 COPY rootfs /
@@ -42,7 +46,7 @@ LABEL \
     maintainer="Alexander Lauster <alexander@macwinlin.de>" \
     org.opencontainers.image.title="${BUILD_NAME}" \
     org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
-    org.opencontainers.image.vendor="Home Assistant Community Apps" \
+    org.opencontainers.image.vendor="Alexander Lauster <alexander@macwinlin.de>" \
     org.opencontainers.image.authors="Alexander Lauster <alexander@macwinlin.de>" \
     org.opencontainers.image.licenses="Apache License" \
     org.opencontainers.image.url="https://github.com/${BUILD_REPOSITORY}" \
