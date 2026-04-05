@@ -1,0 +1,16 @@
+---
+configuration:
+  authorized_keys:
+    name: Autorisierte Schlüssel
+    description: Ihre öffentlichen Schlüssel, die Sie für die Anmeldung akzeptieren möchten.
+  password:
+    name: Passwort
+    description: Legen Sie ein Passwort für die Anmeldung fest. Wir empfehlen diese Variante NICHT.
+  apks:
+    name: Pakete
+    description: Zusätzliche Alpine-Pakete, die im App-Container installiert werden sollen.
+  server:
+    name: Server
+    description: SSH-Server-Konfiguration
+network:
+  22/tcp: SSH Port

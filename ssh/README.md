@@ -1,4 +1,4 @@
-# Home Assistant App: SSH server
+# Home Assistant App: SSH server - Fish edition
 
 Allow logging in remotely to Home Assistant using SSH or just the web terminal with Ingress.
 
@@ -8,6 +8,16 @@ Allow logging in remotely to Home Assistant using SSH or just the web terminal w
 
 Setting up an SSH server allows access to your Home Assistant folders with any SSH
 client. It also includes a command-line tool to access the Home Assistant API.
+
+Adjusted to use fish shell and neovim.
+
+
+## Credits
+Many thanks goes to the following projects which this app is based on:
+
+[Advanced SSH & Web Terminal](https://github.com/hassio-addons/app-ssh)
+[SSH server](https://github.com/home-assistant/addons/tree/master/ssh)
+
 
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg

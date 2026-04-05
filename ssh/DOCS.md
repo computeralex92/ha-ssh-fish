@@ -1,4 +1,4 @@
-# Home Assistant App: Terminal & SSH
+# Home Assistant App: Terminal & SSH - Fish edition
 
 ## Installation
 
@@ -102,19 +102,11 @@ Remote SSH access can be disabled again, by clearing the input box, saving the c
 
 ## Support
 
-Got questions?
-
-You have several options to get them answered:
-
-- The [Home Assistant Discord Chat Server][discord].
-- The Home Assistant [Community Forum][forum].
-- Join the [Reddit subreddit][reddit] in [/r/homeassistant][reddit]
-
 In case you've found a bug, please [open an issue on our GitHub][issue].
 
 [discord]: https://www.home-assistant.io/join-chat
 [forum]: https://community.home-assistant.io
-[issue]: https://github.com/home-assistant/addons/issues
+[issue]: https://github.com/computeralex92/ha-ssh-fish/issues
 [keygen-windows]: https://www.digitalocean.com/community/tutorials/how-to-create-ssh-keys-with-putty-to-connect-to-a-vps
 [keygen]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 [reddit]: https://reddit.com/r/homeassistant
