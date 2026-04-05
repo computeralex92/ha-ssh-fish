@@ -1,4 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/base:20.0.2
+ARG HA_CLI_VERSION="5.0.0"
 FROM $BUILD_FROM
 
 # Setup base
@@ -23,9 +24,9 @@ RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
 
 # Home Assistant CLI
 ARG BUILD_ARCH
-ARG CLI_VERSION
+ARG HA_CLI_VERSION
 RUN curl -Lso /usr/bin/ha \
-        "https://github.com/home-assistant/cli/releases/download/${CLI_VERSION}/ha_${BUILD_ARCH}" \
+        "https://github.com/home-assistant/cli/releases/download/${HA_CLI_VERSION}/ha_${BUILD_ARCH}" \
     && chmod a+x /usr/bin/ha \
     && /usr/bin/ha completion fish > /usr/share/fish/completions/ha.completion
 
