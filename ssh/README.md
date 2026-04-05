@@ -15,8 +15,8 @@ Adjusted to use fish shell and neovim.
 ## Credits
 Many thanks goes to the following projects which this app is based on:
 
-[Advanced SSH & Web Terminal](https://github.com/hassio-addons/app-ssh)
-[SSH server](https://github.com/home-assistant/addons/tree/master/ssh)
+* [Advanced SSH & Web Terminal](https://github.com/hassio-addons/app-ssh)
+* [SSH server](https://github.com/home-assistant/addons/tree/master/ssh)
 
 
 
