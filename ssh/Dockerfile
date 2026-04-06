@@ -17,7 +17,10 @@ RUN \
         tmux=3.6-r0 \
         ttyd=1.7.7-r0 \
         neovim=0.11.7-r0 \
-        fish=4.0.2-r0 
+        fish=4.0.2-r0 \
+        htop=3.4.1-r1 \
+        bottom=0.10.2-r0 \
+        bottom-fish-completion=0.10.2-r0
 
 # Use bash as default shell
 RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
