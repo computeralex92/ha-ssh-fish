@@ -6,18 +6,18 @@ FROM $BUILD_FROM
 RUN \
     set -x \
     && apk add --no-cache \
-        pulseaudio-utils \
-        alsa-plugins-pulse \
-        bluez \
-        git \
-        libuv \
-        mosquitto-clients \
-        openssh \
-        pwgen \
-        tmux \
-        ttyd \
-        neovim \
-        fish 
+        pulseaudio-utils=17.0-r5 \
+        alsa-plugins-pulse=1.2.12-r2 \
+        bluez=5.85-r0 \
+        git=2.52.0-r0 \
+        libuv=1.51.0-r0 \
+        mosquitto-clients=2.0.22-r0 \
+        openssh=10.2_p1-r0 \
+        pwgen=2.08-r3 \
+        tmux=3.6-r0 \
+        ttyd=1.7.7-r0 \
+        neovim=0.11.7-r0 \
+        fish=4.0.2-r0 
 
 # Use bash as default shell
 RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
@@ -25,7 +25,6 @@ RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
 # Configure neovim as replacement for vi & vim
 RUN ln -sf /usr/bin/nvim /usr/local/bin/vi \
     && ln -sf /usr/bin/nvim /usr/local/bin/vim
-
 
 # Home Assistant CLI
 ARG BUILD_ARCH
