@@ -28,13 +28,13 @@ chmod 600 /data/.fish_config
 
 # Links some common directories to the user's home folder for convenience
 for dir in "${DIRECTORIES[@]}"; do
-    ln -s "/${dir}" "${HOME}/${dir}" \
+    ln -sf "/${dir}" "${HOME}/${dir}" \
         || bashio::log.warning "Failed linking common directory: ${dir}"
 done
 
 # Some links to "old" locations, to match documentation,
 # backwards compatibility and musle memory
-ln -s "/homeassistant" "/config" \
+ln -sf "/homeassistant" "/config" \
     || bashio::log.warning "Failed linking common directory: /config"
-ln -s "/homeassistant" "${HOME}/config" \
+ln -sf "/homeassistant" "${HOME}/config" \
     || bashio::log.warning "Failed linking common directory: ${HOME}/config"

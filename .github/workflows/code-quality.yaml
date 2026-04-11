@@ -1,0 +1,35 @@
+name: Code Quality
+
+on:
+  push:
+    branches:
+      - main
+      - edge
+  pull_request:
+    branches:
+      - main
+      - edge
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: 🔧 Run Shellcheck
+        uses: ludeeus/action-shellcheck@9dcec15bcce6b7abce1f24f6e1a7b8c0b89ebc75 # 2.0.0
+
+  hadolint:
+    name: Hadolint
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⤵️ Check out code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: 🔧 Run Hadolint
+        uses: hadolint/hadolint-action@54e2c1f896c29c2a0afb1f2f2db9ecb89909e4d3 # v3.1.0
+        with:
+          dockerfile: |
+            **/Dockerfile

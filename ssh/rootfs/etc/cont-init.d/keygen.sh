@@ -13,5 +13,5 @@ if ! bashio::fs.directory_exists "${KEYS_PATH}"; then
     cp -fp /etc/ssh/ssh_host* "${KEYS_PATH}/"
 else
     bashio::log.info "Restoring host keys..."
-    cp -fp "${KEYS_PATH}"/* /etc/ssh/
+    cp -fp "${KEYS_PATH}"/ssh_host_* /etc/ssh/ || true
 fi
