@@ -18,6 +18,10 @@ Many thanks goes to the following projects which this app is based on:
 * [Advanced SSH & Web Terminal](https://github.com/hassio-addons/app-ssh)
 * [SSH server](https://github.com/home-assistant/addons/tree/master/ssh)
 
+## Development
+
+This project uses [OpenCode](https://opencode.ai) as an AI-assisted development tool to help with code improvements, security hardening, and configuration optimization. All changes are reviewed and approved by a human before being merged.
+
 
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg

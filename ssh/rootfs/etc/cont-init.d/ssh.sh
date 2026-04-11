@@ -24,21 +24,17 @@ bashio::var.json \
 if bashio::config.has_value 'authorized_keys'; then
     bashio::log.info "Setup authorized_keys"
 
-    rm -f /data/.ssh/authorized_keys
-    while read -r line; do
-        echo "$line" >> /data/.ssh/authorized_keys
-    done <<< "$(bashio::config 'authorized_keys')"
-
+    printf '%s\n' "$(bashio::config 'authorized_keys')" > /data/.ssh/authorized_keys
     chmod 600 /data/.ssh/authorized_keys
 
     # Unlock account
     PASSWORD="$(pwgen -s 64 1)"
-    echo "root:${PASSWORD}" | chpasswd 2&> /dev/null
+    echo "root:${PASSWORD}" | chpasswd 2>/dev/null
 elif bashio::config.has_value 'password'; then
     bashio::log.info "Setup password login"
 
     PASSWORD=$(bashio::config 'password')
-    echo "root:${PASSWORD}" | chpasswd 2&> /dev/null
+    echo "root:${PASSWORD}" | chpasswd 2>/dev/null
 elif bashio::var.has_value "$(bashio::addon.port 22)"; then
     bashio::exit.nok "You need to setup a login!"
 fi

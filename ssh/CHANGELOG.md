@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4
+Fix shell script typos and improve code quality
+Add .dockerignore to reduce build context
+Add OpenCode development note to README
+
 ## 1.0.3
 Improve Dockerfile: reduce layers, remove debug output
 Improve Renovate config: better package detection, Alpine versioning, automerge
