@@ -3,9 +3,7 @@ ARG HA_CLI_VERSION="5.0.0"
 FROM $BUILD_FROM
 
 # Setup base
-RUN \
-    set -x \
-    && apk add --no-cache \
+RUN apk add --no-cache \
         pulseaudio-utils=17.0-r5 \
         alsa-plugins-pulse=1.2.12-r2 \
         bluez=5.85-r0 \
@@ -20,20 +18,19 @@ RUN \
         fish=4.0.2-r0 \
         htop=3.4.1-r1 \
         bottom=0.10.2-r0 \
-        bottom-fish-completion=0.10.2-r0
-
-# Use bash as default shell
-RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
-
-# Configure neovim as replacement for vi & vim
-RUN ln -sf /usr/bin/nvim /usr/local/bin/vi \
+        bottom-fish-completion=0.10.2-r0 \
+    && ln -sf /usr/bin/nvim /usr/local/bin/vi \
     && ln -sf /usr/bin/nvim /usr/local/bin/vim
+
+# Use fish as default shell
+RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
 
 # Home Assistant CLI
 ARG BUILD_ARCH
 ARG HA_CLI_VERSION
 RUN curl -Lso /usr/bin/ha \
         "https://github.com/home-assistant/cli/releases/download/${HA_CLI_VERSION}/ha_${BUILD_ARCH}" \
+    && test -s /usr/bin/ha \
     && chmod a+x /usr/bin/ha \
     && /usr/bin/ha completion fish > /usr/share/fish/completions/ha.fish
 
