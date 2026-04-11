@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+Fix symlink overwrite issues on container restart
+Fix keygen.sh glob matching for host key restoration
+
 ## 1.0.4
 Fix shell script typos and improve code quality
 Add .dockerignore to reduce build context
