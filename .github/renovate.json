@@ -4,38 +4,61 @@
     "config:recommended",
     "helpers:pinGitHubActionDigests"
   ],
+  "rebaseWhen": "behind-base-branch",
   "dependencyDashboard": true,
+  "labels": ["dependencies", "no-stale"],
+  "commitMessagePrefix": "⬆️",
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["//Dockerfile$/", "//build.yaml$/"],
-      "matchStringsStrategy": "any",
+      "fileMatch": ["Dockerfile$", "build.yaml$"],
       "matchStrings": [
-        "ARG BUILD_FROM=(?<depName>.*?):(?<currentValue>.*?)\\s+",
+        "ARG BUILD_FROM=(?<depName>.*?):(?<currentValue>.*?)\\s",
         "(aarch64|amd64):\\s[\"']?(?<depName>.*?):(?<currentValue>.*?)[\"']?\\s"
       ],
       "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["//Dockerfile$/"],
+      "fileMatch": ["Dockerfile$"],
       "matchStrings": [
-        "ARG HA_CLI_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
+        "ARG HA_CLI_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s"
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "home-assistant/cli",
-      "versioningTemplate": "loose"
+      "versioningTemplate": "semver"
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["//Dockerfile$/"],
-      "matchStringsStrategy": "any",
+      "fileMatch": ["Dockerfile$"],
       "matchStrings": [
-        "\\s\\s(?<package>[a-z0-9][a-z0-9-_]+)=(?<currentValue>[a-z0-9-_.]+)\\s+"
+        "\\s(?<package>[a-z0-9-]+)=(?<currentValue>[a-z0-9-_.]+)\\s"
       ],
-      "versioningTemplate": "loose",
+      "versioningTemplate": "alpine",
       "datasourceTemplate": "repology",
       "depNameTemplate": "alpine_3_23/{{package}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["repology"],
+      "groupName": "Alpine packages",
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "groupName": "Base image"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "matchDatasources": ["github-releases"],
+      "groupName": "HA CLI"
     }
   ]
 }
