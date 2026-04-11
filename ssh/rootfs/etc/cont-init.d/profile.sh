@@ -5,7 +5,7 @@
 # ==============================================================================
 readonly DIRECTORIES=(addon_configs addons backup homeassistant media share ssl)
 
-# Persist shell history by redirecting .bash_history to /data
+# Persist fish shell history by redirecting .fish_history to /data
 if ! bashio::fs.file_exists /data/.fish_history; then
     touch /data/.fish_history
 fi
@@ -20,11 +20,11 @@ bashio::var.json \
         -out /etc/profile.d/homeassistant.sh
 
 
-# Persist shell profile by redirecting .bash_profile to /data
-if ! bashio::fs.file_exists /data/.bash_profile; then
-    touch /data/.bash_profile
+# Persist fish config by redirecting to /data
+if ! bashio::fs.file_exists /data/.fish_config; then
+    touch /data/.fish_config
 fi
-chmod 600 /data/.bash_profile
+chmod 600 /data/.fish_config
 
 # Links some common directories to the user's home folder for convenience
 for dir in "${DIRECTORIES[@]}"; do
