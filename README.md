@@ -13,5 +13,9 @@ This repository contains the following apps
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+## Development
+
+This project uses [OpenCode](https://opencode.ai) as an AI-assisted development tool to help with code improvements, security hardening, and configuration optimization. All changes are reviewed and approved by a human before being merged.
+
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
