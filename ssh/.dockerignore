@@ -1,0 +1,21 @@
+# Git
+.git
+.gitignore
+.github
+
+# Documentation
+*.md
+LICENSE
+
+# IDE
+.vscode
+.idea
+.devcontainer
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local config
+.env
+.env.*

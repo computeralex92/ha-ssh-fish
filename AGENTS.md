@@ -30,3 +30,13 @@ Version is read from `ssh/config.yaml` (`version` field). Increment it before pu
 ## Local development
 
 No local build or test commands exist. Validate changes with the lint workflow locally or trust CI. Ensure `ssh/config.yaml` has a matching `version` before merging to `main`.
+
+## Shell scripts
+
+Run `shellcheck` on init scripts before committing:
+```bash
+shellcheck ssh/rootfs/etc/cont-init.d/*.sh
+shellcheck ssh/rootfs/etc/services.d/*/run
+```
+
+Init scripts use `bashio` library from Home Assistant base image.
