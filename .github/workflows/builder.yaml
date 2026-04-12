@@ -83,7 +83,7 @@ jobs:
   release:
     name: Create GitHub release
     needs: [build-app]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && steps.version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -98,13 +98,22 @@ jobs:
         id: version
         run: |
           version=$(grep '^version:' ssh/config.yaml | awk '{print $2}')
+          previous_tag=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
+          
+          # Release if version changed, or if this is the first release (no previous tag)
+          if [ "$version" != "$previous_tag" ]; then
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Generate changelog
         id: changelog
         run: |
           version="${{ steps.version.outputs.version }}"
-          previous_tag=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          previous_tag="${{ steps.version.outputs.previous_tag }}"
           
           if [ -n "$previous_tag" ]; then
             changes=$(git log --format="- %s" ${previous_tag}..HEAD -- not "*/CHANGELOG.md" "*/config.yaml")
