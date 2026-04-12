@@ -79,3 +79,56 @@ jobs:
       app: ${{ matrix.app }}
       publish: ${{ github.event_name == 'push' }}
     secrets: inherit
+
+  release:
+    name: Create GitHub release
+    needs: [build-app]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Get version from config
+        id: version
+        run: |
+          version=$(grep '^version:' ssh/config.yaml | awk '{print $2}')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          previous_tag=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          if [ -n "$previous_tag" ]; then
+            changes=$(git log --format="- %s" ${previous_tag}..HEAD -- not "*/CHANGELOG.md" "*/config.yaml")
+          else
+            changes=$(git log --format="- %s" -10)
+          fi
+          
+          echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
+          echo "## $version" >> "$GITHUB_OUTPUT"
+          echo "" >> "$GITHUB_OUTPUT"
+          echo "$changes" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: v${{ steps.version.outputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, '-dev') }}
+
+      - name: Push version tag
+        run: |
+          git push origin v${{ steps.version.outputs.version }}
