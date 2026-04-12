@@ -21,6 +21,7 @@ jobs:
     outputs:
       changed: ${{ steps.filter.outputs.changed }}
       changed_apps: ${{ steps.filter.outputs.changed_apps }}
+      version_bump: ${{ steps.version_check.outputs.version_bump }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -62,6 +63,21 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Check if version bump
+        id: version_check
+        run: |
+          current_version=$(grep '^version:' ssh/config.yaml | awk '{print $2}')
+          previous_tag=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          echo "current_version=$current_version" >> "$GITHUB_OUTPUT"
+          echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
+
+          if [[ "$current_version" != "$previous_tag" ]] && [[ -n "$previous_tag" ]]; then
+            echo "version_bump=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "version_bump=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build-app:
     name: Build ${{ matrix.app }}
     needs: init
@@ -82,8 +98,8 @@ jobs:
 
   release:
     name: Create GitHub release
-    needs: [build-app]
-    if: github.event_name == 'push' && steps.version.outputs.should_release == 'true'
+    needs: [init, build-app]
+    if: github.event_name == 'push' && needs.init.outputs.version_bump == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -98,29 +114,20 @@ jobs:
         id: version
         run: |
           version=$(grep '^version:' ssh/config.yaml | awk '{print $2}')
-          previous_tag=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           echo "version=$version" >> "$GITHUB_OUTPUT"
-          echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
-          
-          # Release if version changed, or if this is the first release (no previous tag)
-          if [ "$version" != "$previous_tag" ]; then
-            echo "should_release=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_release=false" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Generate changelog
         id: changelog
         run: |
           version="${{ steps.version.outputs.version }}"
-          previous_tag="${{ steps.version.outputs.previous_tag }}"
-          
+          previous_tag=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
           if [ -n "$previous_tag" ]; then
             changes=$(git log --format="- %s" ${previous_tag}..HEAD -- not "*/CHANGELOG.md" "*/config.yaml")
           else
             changes=$(git log --format="- %s" -10)
           fi
-          
+
           echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
           echo "## $version" >> "$GITHUB_OUTPUT"
           echo "" >> "$GITHUB_OUTPUT"
