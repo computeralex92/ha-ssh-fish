@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6
+
+- Automate release process with auto-generated changelog
+
 ## 1.0.5
 
 - Fix symlink overwrite issues on container restart
