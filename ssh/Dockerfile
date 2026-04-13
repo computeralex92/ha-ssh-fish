@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:20.0.3
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:20.0.4
 ARG HA_CLI_VERSION="5.0.0"
 FROM $BUILD_FROM
 
