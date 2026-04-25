@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/apps/repository#repository-configuration
 name: Home Assistant SSH - Fish edition
-url: 'https://github.com/computeralex92/ha-ssh-fish'
+url: "https://github.com/computeralex92/ha-ssh-fish"
 maintainer: Alexander Lauster <alexander@macwinlin.de>

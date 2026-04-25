@@ -45,4 +45,3 @@ tempio \
     -conf /data/options.json \
     -template /usr/share/tempio/sshd_config \
     -out /etc/ssh/sshd_config
-
