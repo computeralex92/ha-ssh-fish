@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.7
+
+- Add pre-commit configuration with shellcheck and YAML validation
+- Update CI workflows for improved build process
+- Update base image to latest version
+
 ## 1.0.6
 
 - Automate release process with auto-generated changelog
