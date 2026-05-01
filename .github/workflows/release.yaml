@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  id-token: write
+  packages: write
+
+jobs:
+  check-version:
+    name: Check version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      version_bump: ${{ steps.version.outputs.version_bump }}
+      previous_tag: ${{ steps.version.outputs.previous_tag }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Get version and check for bump
+        id: version
+        run: |
+          version=$(grep '^version:' ssh/config.yaml | awk '{print $2}')
+          previous_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "previous_tag=$previous_tag" >> "$GITHUB_OUTPUT"
+
+          if [[ "$version" != "$previous_tag" ]] && [[ -n "$previous_tag" ]]; then
+            echo "version_bump=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "version_bump=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    name: Build and publish
+    needs: check-version
+    if: needs.check-version.outputs.version_bump == 'true'
+    uses: ./.github/workflows/build-app.yaml
+    with:
+      app: ssh
+      publish: true
+    secrets: inherit
+
+  release:
+    name: Create release
+    needs: [check-version, build]
+    if: needs.check-version.outputs.version_bump == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          version="${{ needs.check-version.outputs.version }}"
+          previous_tag="${{ needs.check-version.outputs.previous_tag }}"
+
+          if [ -n "$previous_tag" ]; then
+            changes=$(git log --format="- %s" ${previous_tag}..HEAD)
+          else
+            changes=$(git log --format="- %s" -10)
+          fi
+
+          echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
+          echo "## What's Changed" >> "$GITHUB_OUTPUT"
+          echo "" >> "$GITHUB_OUTPUT"
+          echo "$changes" >> "$GITHUB_OUTPUT"
+          echo "" >> "$GITHUB_OUTPUT"
+          echo "**Full Changelog**: https://github.com/computeralex92/ha-ssh-fish/compare/${previous_tag}...v${version}" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87c0abf8aa5b2ef267fda # v2.3.0
+        with:
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: v${{ needs.check-version.outputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: ${{ contains(needs.check-version.outputs.version, '-dev') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

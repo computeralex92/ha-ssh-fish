@@ -14,14 +14,19 @@ HA's `find-addons` action scans for directories containing `config.yaml`. This r
 
 ## CI/CD
 
-### Lint (`lint.yaml`)
-Runs `frenck/action-addon-linter` on each app found. No local lint command.
+### CI (`ci.yaml`)
+Runs on pull requests to `main`:
+- **Lint**: Runs `frenck/action-addon-linter` on the `ssh/` app
+- **Shellcheck**: Lints shell scripts (ignores dotfiles)
+- **Hadolint**: Lints `ssh/Dockerfile`
 
-### Build (`builder.yaml` → `build-app.yaml`)
-- Triggers on changes to monitored files: `config.json config.yaml config.yml Dockerfile rootfs`
-- Uses `home-assistant/builder/actions` (version pinned to `62a1597`) for multi-arch builds
-- Publishes to `ghcr.io/computeralex92/ha-ssh-fish/ha-ssh-fish` on push to `main`
-- Architectures: `aarch64`, `amd64`
+### Release (`release.yaml`)
+Triggers on push to `main`:
+1. **Check version**: Compares `ssh/config.yaml` version with latest git tag
+2. **Build**: If version bumped, builds multi-arch image (`aarch64`, `amd64`) and publishes to `ghcr.io/computeralex92/ha-ssh-fish/ha-ssh-fish`
+3. **Release**: Creates GitHub release with auto-generated changelog from commits
+
+Uses `home-assistant/builder/actions` (version pinned to `62a1597`).
 
 ## Versioning
 
