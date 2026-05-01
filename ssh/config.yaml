@@ -1,5 +1,5 @@
 ---
-version: 1.1.0
+version: 1.2.0
 slug: ssh-fish
 name: Terminal & SSH - Fish edition
 description: Allow logging in remotely to Home Assistant using SSH & Fish shell

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0
+
+- Consolidate CHANGELOG.md to ssh/ directory for Home Assistant detection
+- Update documentation with changelog location requirements
+- Restructure CI workflows for better PR linting
+
 ## 1.1.0
 
 - Restructure CI workflows for better PR linting and simplified release process
