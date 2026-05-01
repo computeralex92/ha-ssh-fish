@@ -102,6 +102,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate changelog
         id: changelog
@@ -120,6 +121,23 @@ jobs:
           echo "" >> "$GITHUB_OUTPUT"
           echo "$changes" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Update CHANGELOG.md
+        run: |
+          version="${{ needs.init.outputs.version }}"
+          changelog="${{ steps.changelog.outputs.changelog }}"
+
+          if [ -f CHANGELOG.md ]; then
+            echo "$changelog" | cat - CHANGELOG.md > temp && mv temp CHANGELOG.md
+          else
+            echo "$changelog" > CHANGELOG.md
+          fi
+
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG.md for v${version}" || echo "No changes to commit"
+          git push origin main
 
       - name: Create GitHub Release
         uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1
