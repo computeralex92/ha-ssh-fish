@@ -32,6 +32,10 @@ Uses `home-assistant/builder/actions` (version pinned to `62a1597`).
 
 Version is read from `ssh/config.yaml` (`version` field). Increment it before publishing.
 
+## Changelog
+
+Home Assistant requires `CHANGELOG.md` to be in the addon directory (`ssh/`) to detect and display it. Only maintain `ssh/CHANGELOG.md` — do not create a root-level `CHANGELOG.md`.
+
 ## Local development
 
 No local build or test commands exist. Validate changes with the lint workflow locally or trust CI. Ensure `ssh/config.yaml` has a matching `version` before merging to `main`.
