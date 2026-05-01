@@ -9,26 +9,12 @@ permissions:
   contents: read
 
 jobs:
-  find-apps:
-    name: Find apps
-    runs-on: ubuntu-latest
-    outputs:
-      addons: ${{ steps.addons.outputs.addons_list }}
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Find app directories
-        id: addons
-        uses: home-assistant/actions/helpers/find-addons@f6f29a7ee3fa0eccadf3620a7b9ee00ab54ec03b # master
-
   lint:
     name: Lint ${{ matrix.path }}
     runs-on: ubuntu-latest
-    needs: find-apps
     strategy:
       matrix:
-        path: ${{ fromJson(needs.find-apps.outputs.addons) }}
+        path: ["ssh"]
     steps:
       - name: Check out the repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -47,6 +33,10 @@ jobs:
 
       - name: Run Shellcheck
         uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
+        with:
+          ignore_paths: >-
+            ./.*/
+            ./.git/
 
   hadolint:
     name: Hadolint
@@ -58,5 +48,4 @@ jobs:
       - name: Run Hadolint
         uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
         with:
-          dockerfile: |
-            **/Dockerfile
+          dockerfile: ssh/Dockerfile
