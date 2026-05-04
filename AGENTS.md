@@ -32,6 +32,10 @@ Uses `home-assistant/builder/actions` (version pinned to `62a1597`).
 
 Version is read from `ssh/config.yaml` (`version` field). Increment it before publishing.
 
+- **Patch version (x.y.z)**: For minor changes like adding .gitignore, small fixes, or maintenance tasks
+- **Minor version (x.y.0)**: For package updates, dependency updates, or small feature additions
+- **Major version (x.0.0)**: For significant changes, breaking changes, or major feature additions
+
 ## Changelog
 
 Home Assistant requires `CHANGELOG.md` to be in the addon directory (`ssh/`) to detect and display it. Only maintain `ssh/CHANGELOG.md` — do not create a root-level `CHANGELOG.md`.
