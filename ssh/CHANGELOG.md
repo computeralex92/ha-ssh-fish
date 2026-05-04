@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1
+
+- Add .gitignore to exclude node_modules from version control
+- Remove node_modules from git tracking
+
 ## 1.2.0
 
 - Consolidate CHANGELOG.md to ssh/ directory for Home Assistant detection
