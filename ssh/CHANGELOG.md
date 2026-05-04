@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- Add prek GitHub Action for pre-commit hooks in CI workflow
+
 ## 1.2.1
 
 - Add .gitignore to exclude node_modules from version control
