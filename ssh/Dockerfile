@@ -1,5 +1,5 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/base:20.1.0
-ARG HA_CLI_VERSION="5.0.0"
+ARG HA_CLI_VERSION="5.1.0"
 FROM $BUILD_FROM
 
 # Setup base
