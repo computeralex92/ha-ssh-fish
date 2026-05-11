@@ -37,14 +37,31 @@
       "versioningTemplate": "alpine",
       "datasourceTemplate": "repology",
       "depNameTemplate": "alpine_3_23/{{package}}"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["Dockerfile$"],
+      "matchStrings": [
+        "ARG ALPINE_TAG=(?<currentValue>.+)\\s"
+      ],
+      "datasourceTemplate": "repology",
+      "depNameTemplate": "alpine_3_23/alpine-keys",
+      "versioningTemplate": "alpine"
     }
   ],
   "packageRules": [
     {
       "matchDatasources": ["repology"],
+      "matchUpdateTypes": ["patch"],
       "groupName": "Alpine packages",
       "automerge": true,
       "automergeType": "pr"
+    },
+    {
+      "matchDatasources": ["repology"],
+      "matchUpdateTypes": ["minor", "major"],
+      "groupName": "Alpine packages",
+      "automerge": false
     },
     {
       "matchDatasources": ["docker"],
