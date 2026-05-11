@@ -100,6 +100,10 @@ Remote SSH access can be disabled again, by clearing the input box, saving the c
 - This app will not enable you to install packages or do anything as root.
   This is not working with Home Assistant.
 
+## License
+
+Apache License 2.0
+
 ## Support
 
 In case you've found a bug, please [open an issue on our GitHub][issue].

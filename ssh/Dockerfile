@@ -4,9 +4,6 @@ FROM $BUILD_FROM
 
 # Setup base
 RUN apk add --no-cache \
-        pulseaudio-utils=17.0-r5 \
-        alsa-plugins-pulse=1.2.12-r2 \
-        bluez=5.85-r0 \
         git=2.52.0-r0 \
         libuv=1.51.0-r0 \
         mosquitto-clients=2.0.22-r0 \

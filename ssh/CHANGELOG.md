@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.0
+
+- Add AppArmor profile for enhanced container security
+- Add `ports_description` for better network configuration UI
+- Add `homeassistant` minimum version pin for compatibility
+- Add `tmpfs: true` and `timeout: 20` for reliability and security
+- Restrict `ssl` and `backup` directory mappings to read-only
+- Remove unused `audio`, `uart`, and `host_dbus` subsystems
+- Remove unused PulseAudio, ALSA, and BlueZ packages
+- Add license section to DOCS.md
+- Add README link to DOCS.md for discoverability
+
 ## 1.2.2
 
 - Add prek GitHub Action for pre-commit hooks in CI workflow
