@@ -131,5 +131,75 @@ profile ssh-fish flags=(attach_disconnected,mediate_deleted) {
     /dev/** rw,
     /var/empty/** rw,
     /var/log/** rw,
+
+    # OpenSSH 10.x session process
+    /usr/lib/ssh/* cx,
+  }
+
+  profile /usr/lib/ssh/sshd-session flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+    #include <abstractions/nameservice>
+
+    signal receive,
+
+    capability chown,
+    capability dac_override,
+    capability dac_read_search,
+    capability fowner,
+    capability fsetid,
+    capability kill,
+    capability net_bind_service,
+    capability setgid,
+    capability setuid,
+    capability sys_chroot,
+    capability sys_tty_config,
+
+    network inet stream,
+    network inet6 stream,
+
+    /usr/lib/ssh/* rm,
+    /etc/ssh/** rw,
+    /etc/passwd r,
+    /etc/shadow r,
+    /etc/group r,
+    /etc/motd rw,
+    /etc/nsswitch.conf r,
+    /etc/hosts r,
+    /etc/hostname r,
+    /etc/resolv.conf r,
+    /run/** rw,
+    /tmp/** rw,
+    /data/** rw,
+    /proc/** r,
+    /dev/** rw,
+    /var/empty/** rw,
+    /var/log/** rw,
+    /root/** rw,
+    /home/** rw,
+    /config/** rw,
+    /addons/** rw,
+    /addon_configs/** rw,
+    /backup/** r,
+    /media/** rw,
+    /share/** rw,
+    /ssl/** r,
+
+    # Shell & user programs
+    /usr/bin/fish ix,
+    /usr/bin/nvim ix,
+    /usr/bin/tmux ix,
+    /usr/bin/htop ix,
+    /usr/bin/btm ix,
+    /usr/bin/pwgen ix,
+    /usr/bin/mosquitto_pub ix,
+    /usr/bin/mosquitto_sub ix,
+    /usr/bin/git ix,
+    /usr/bin/ha rix,
+    /usr/bin/hassio ix,
+    /usr/bin/ssh-keygen ix,
+    /bin/** ix,
+    /sbin/** ix,
+    /usr/bin/** ix,
+    /usr/sbin/** ix,
   }
 }
