@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+- Fix AppArmor profile: add sshd-session subprofile for OpenSSH 10.x
+
 ## 1.3.0
 
 - Add AppArmor profile for enhanced container security
