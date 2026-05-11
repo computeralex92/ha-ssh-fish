@@ -11,6 +11,8 @@ client. It also includes a command-line tool to access the Home Assistant API.
 
 Adjusted to use fish shell and neovim.
 
+See [DOCS.md](./DOCS.md) for full documentation.
+
 
 ## Credits
 Many thanks goes to the following projects which this app is based on:

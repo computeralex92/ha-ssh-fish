@@ -1,5 +1,5 @@
 ---
-version: 1.2.2
+version: 1.3.0
 slug: ssh-fish
 name: Terminal & SSH - Fish edition
 description: Allow logging in remotely to Home Assistant using SSH & Fish shell
@@ -7,21 +7,22 @@ url: https://github.com/computeralex92/ha-ssh-fish
 arch:
   - aarch64
   - amd64
-audio: true
+homeassistant: "2025.1.0"
 hassio_api: true
 hassio_role: manager
-host_dbus: true
 image: ghcr.io/computeralex92/ha-ssh-fish/ha-ssh-fish
 ingress: true
 init: false
+timeout: 20
+tmpfs: true
 map:
   - addons:rw
   - all_addon_configs:rw
-  - backup:rw
+  - backup:ro
   - homeassistant_config:rw
   - media:rw
   - share:rw
-  - ssl:rw
+  - ssl:ro
 options:
   authorized_keys: []
   password: ""
@@ -32,6 +33,8 @@ panel_icon: mdi:console
 panel_title: Terminal
 ports:
   22/tcp: null
+ports_description:
+  22/tcp: SSH Port
 schema:
   authorized_keys:
     - str
@@ -41,4 +44,3 @@ schema:
   server:
     tcp_forwarding: bool
 startup: services
-uart: true
