@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2
+
+- Remove AppArmor profile (temporarily disabled, causes SSH connection failures)
+
 ## 1.3.1
 
 - Fix AppArmor profile: add sshd-session subprofile for OpenSSH 10.x
