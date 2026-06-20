@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.5.0
+## 2.0.0
 
 - Restructure config with nested `ssh:` block: add username, sftp, compatibility_mode, forwarding options
 - Add `log_level`, `packages`, `init_commands`, and `backup_exclude` configuration options
