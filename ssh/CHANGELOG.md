@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.2
+
+- Fix unbound variable error in ssh.sh (AUTHORIZED_KEYS not initialized)
+
 ## 2.0.1
 
 - Fix backward compatibility with old flat config format (authorized_keys, password, apks, server.tcp_forwarding)
