@@ -24,21 +24,36 @@ chmod 700 /data/.ssh \
 echo "SUPERVISOR_TOKEN=${SUPERVISOR_TOKEN}" > /data/.ssh/environment
 chmod 600 /data/.ssh/environment
 
+# Check for authorized_keys (new nested format, fall back to old flat format)
 if bashio::config.has_value 'ssh.authorized_keys'; then
+    AUTHORIZED_KEYS=$(bashio::config 'ssh.authorized_keys')
+elif bashio::config.has_value 'authorized_keys'; then
+    bashio::log.warning "Using deprecated flat config format. Migrate to ssh.authorized_keys."
+    AUTHORIZED_KEYS=$(bashio::config 'authorized_keys')
+fi
+
+# Check for password (new nested format, fall back to old flat format)
+if bashio::config.has_value 'ssh.password'; then
+    PASSWORD=$(bashio::config 'ssh.password')
+elif bashio::config.has_value 'password'; then
+    bashio::log.warning "Using deprecated flat config format. Migrate to ssh.password."
+    PASSWORD=$(bashio::config 'password')
+fi
+
+if bashio::var.has_value "${AUTHORIZED_KEYS}"; then
     bashio::log.info "Setup authorized_keys"
 
-    printf '%s\n' "$(bashio::config 'ssh.authorized_keys')" > /data/.ssh/authorized_keys
+    printf '%s\n' "${AUTHORIZED_KEYS}" > /data/.ssh/authorized_keys
     chmod 600 /data/.ssh/authorized_keys
 
     # Unlock account with random password
-    PASSWORD="$(pwgen -s 64 1)"
-    echo "root:${PASSWORD}" | chpasswd 2>/dev/null
-elif bashio::config.has_value 'ssh.password'; then
+    NEWPASSWORD="$(pwgen -s 64 1)"
+    echo "root:${NEWPASSWORD}" | chpasswd 2>/dev/null
+elif bashio::var.has_value "${PASSWORD}"; then
     bashio::log.info "Setup password login"
 
-    PASSWORD=$(bashio::config 'ssh.password')
     echo "root:${PASSWORD}" | chpasswd 2>/dev/null
-elif bashio::var.has_value "$(bashio::app.port 22)"; then
+else
     bashio::exit.nok "You need to setup a login!"
 fi
 
@@ -48,6 +63,19 @@ tempio \
     -conf /data/options.json \
     -template /usr/share/tempio/sshd_config \
     -out /etc/ssh/sshd_config
+
+# Backward compat: handle old flat config format in sshd_config
+# If old server.tcp_forwarding was set, apply it
+if bashio::config.true 'server.tcp_forwarding' \
+    && ! bashio::config.has_value 'ssh.allow_tcp_forwarding'; then
+    bashio::log.warning "Using deprecated server.tcp_forwarding. Migrate to ssh.allow_tcp_forwarding."
+    sed -i 's/AllowTcpForwarding no/AllowTcpForwarding yes/' /etc/ssh/sshd_config
+fi
+
+# Default log_level to INFO if not set (backward compat with old configs)
+if ! bashio::config.has_value 'log_level'; then
+    sed -i 's/^LogLevel .*/LogLevel INFO/' /etc/ssh/sshd_config
+fi
 
 # Apply compatibility mode
 if bashio::config.true 'ssh.compatibility_mode'; then
