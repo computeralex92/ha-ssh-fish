@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0
+
+- Update base image to Alpine 3.24
+- Update packages: git 2.54.0, libuv 1.52.1, mosquitto-clients 2.1.2, openssh 10.3_p1, tmux 3.6b, neovim 0.12.2, fish 4.6.0, htop 3.5.1, bottom 0.12.3
+
 ## 1.3.2
 
 - Remove AppArmor profile (temporarily disabled, causes SSH connection failures)

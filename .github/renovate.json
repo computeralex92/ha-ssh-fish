@@ -36,7 +36,7 @@
       ],
       "versioningTemplate": "alpine",
       "datasourceTemplate": "repology",
-      "depNameTemplate": "alpine_3_23/{{package}}"
+      "depNameTemplate": "alpine_3_24/{{package}}"
     },
     {
       "customType": "regex",
@@ -45,7 +45,7 @@
         "ARG ALPINE_TAG=(?<currentValue>.+)\\s"
       ],
       "datasourceTemplate": "repology",
-      "depNameTemplate": "alpine_3_23/alpine-keys",
+      "depNameTemplate": "alpine_3_24/alpine-keys",
       "versioningTemplate": "alpine"
     }
   ],

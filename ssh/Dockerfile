@@ -1,22 +1,22 @@
 ARG BUILD_FROM=ghcr.io/hassio-addons/base:21.0.0
-ARG ALPINE_TAG=3_23
+ARG ALPINE_TAG=3_24
 ARG HA_CLI_VERSION="5.2.0"
 FROM $BUILD_FROM
 
 # Setup base
 RUN apk add --no-cache \
-        git=2.52.0-r0 \
-        libuv=1.51.0-r0 \
-        mosquitto-clients=2.0.22-r0 \
-        openssh=10.2_p1-r0 \
+        git=2.54.0-r0 \
+        libuv=1.52.1-r0 \
+        mosquitto-clients=2.1.2-r1 \
+        openssh=10.3_p1-r0 \
         pwgen=2.08-r3 \
-        tmux=3.6-r0 \
+        tmux=3.6b-r0 \
         ttyd=1.7.7-r0 \
-        neovim=0.11.7-r0 \
-        fish=4.0.2-r0 \
-        htop=3.4.1-r1 \
-        bottom=0.10.2-r0 \
-        bottom-fish-completion=0.10.2-r0 \
+        neovim=0.12.2-r0 \
+        fish=4.6.0-r1 \
+        htop=3.5.1-r1 \
+        bottom=0.12.3-r0 \
+        bottom-fish-completion=0.12.3-r0 \
     && ln -sf /usr/bin/nvim /usr/local/bin/vi \
     && ln -sf /usr/bin/nvim /usr/local/bin/vim
 
