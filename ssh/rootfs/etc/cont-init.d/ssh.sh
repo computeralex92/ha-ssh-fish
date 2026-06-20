@@ -44,23 +44,6 @@ elif bashio::config.has_value 'password'; then
     PASSWORD=$(bashio::config 'password')
 fi
 
-if bashio::var.has_value "${AUTHORIZED_KEYS}"; then
-    bashio::log.info "Setup authorized_keys"
-
-    printf '%s\n' "${AUTHORIZED_KEYS}" > /data/.ssh/authorized_keys
-    chmod 600 /data/.ssh/authorized_keys
-
-    # Unlock account with random password
-    NEWPASSWORD="$(pwgen -s 64 1)"
-    echo "root:${NEWPASSWORD}" | chpasswd 2>/dev/null
-elif bashio::var.has_value "${PASSWORD}"; then
-    bashio::log.info "Setup password login"
-
-    echo "root:${PASSWORD}" | chpasswd 2>/dev/null
-else
-    bashio::exit.nok "You need to setup a login!"
-fi
-
 # Generate config
 mkdir -p /etc/ssh
 tempio \
@@ -86,4 +69,24 @@ if bashio::config.true 'ssh.compatibility_mode'; then
     sed -i '/^Ciphers /s/^/#/' /etc/ssh/sshd_config
     sed -i '/^MACs /s/^/#/' /etc/ssh/sshd_config
     sed -i '/^KexAlgorithms /s/^/#/' /etc/ssh/sshd_config
+fi
+
+# Setup authentication
+if bashio::var.has_value "${AUTHORIZED_KEYS}"; then
+    bashio::log.info "Setup authorized_keys"
+
+    printf '%s\n' "${AUTHORIZED_KEYS}" > /data/.ssh/authorized_keys
+    chmod 600 /data/.ssh/authorized_keys
+
+    # Unlock account with random password
+    NEWPASSWORD="$(pwgen -s 64 1)"
+    echo "root:${NEWPASSWORD}" | chpasswd 2>/dev/null
+elif bashio::var.has_value "${PASSWORD}"; then
+    bashio::log.info "Setup password login"
+
+    echo "root:${PASSWORD}" | chpasswd 2>/dev/null
+else
+    bashio::log.warning "No SSH credentials configured!"
+    bashio::log.warning "Set ssh.authorized_keys or ssh.password to enable SSH login."
+    bashio::log.warning "The SSH port is enabled but all login attempts will be rejected."
 fi
