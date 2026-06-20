@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1
+
+- Fix backward compatibility with old flat config format (authorized_keys, password, apks, server.tcp_forwarding)
+- Default log_level to INFO when not set in config
+
 ## 2.0.0
 
 - Restructure config with nested `ssh:` block: add username, sftp, compatibility_mode, forwarding options
