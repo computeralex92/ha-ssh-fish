@@ -47,10 +47,7 @@ RUN awk '$5 >= 3071' /etc/ssh/moduli >/etc/ssh/moduli.safe \
     || echo "Warning: /etc/ssh/moduli.safe is empty. SSH moduli file not replaced."
 
 # Permission hardening
-RUN chmod 0640 /etc/sudo.conf \
-    && chmod 0750 /etc/sudoers.d \
-    && chmod 0640 /etc/sudoers.d/* \
-    && chmod 0660 /var/log/btmp
+RUN chmod 0660 /var/log/btmp 2>/dev/null || true
 
 # Copy data
 COPY rootfs /
