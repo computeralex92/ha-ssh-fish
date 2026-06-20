@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.0
+
+- Restructure config with nested `ssh:` block: add username, sftp, compatibility_mode, forwarding options
+- Add `log_level`, `packages`, `init_commands`, and `backup_exclude` configuration options
+- Add new packages: screen, ncdu, tcpdump, nmap-ncat, mtr, rsync, wget
+- Keep starting when custom package installation fails (log warning instead of crash)
+- Exit cleanly when SSH port is disabled (early exit in init instead of sleep hack)
+- SSH moduli hardening (remove weak Diffie-Hellman parameters)
+- Exclude `.ssh/environment` from backups (contains SUPERVISOR_TOKEN)
+- Restrict permissions on credential files
+- Fix sshd_config: add explicit crypto, auth, and forwarding settings
+- Migrate from `bashio::addon.*` to `bashio::app.*` API
+- Update renovate config to match upstream patterns
+
 ## 1.4.0
 
 - Update base image to Alpine 3.24
