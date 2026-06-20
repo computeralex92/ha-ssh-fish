@@ -10,6 +10,10 @@ if ! bashio::var.has_value "$(bashio::app.port 22)"; then
     exit 0
 fi
 
+# Initialize variables for backward compat checks
+AUTHORIZED_KEYS=""
+PASSWORD=""
+
 # Sets up the users .ssh folder to be persistent
 if ! bashio::fs.directory_exists /data/.ssh; then
     mkdir -p /data/.ssh \
