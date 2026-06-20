@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+- Fix web terminal ingress by removing invalid `ingress_port: 0` setting
+
 ## 2.1.0
 
 - Add ingress_stream and ingress_port for improved web terminal performance
