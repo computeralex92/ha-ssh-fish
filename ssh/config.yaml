@@ -1,5 +1,5 @@
 ---
-version: 2.0.3
+version: 2.1.0
 slug: ssh-fish
 name: Terminal & SSH - Fish edition
 description: Allow logging in remotely to Home Assistant using SSH & Fish shell
@@ -12,9 +12,12 @@ hassio_api: true
 hassio_role: manager
 image: ghcr.io/computeralex92/ha-ssh-fish/ha-ssh-fish
 ingress: true
+ingress_port: 0
+ingress_stream: true
 init: false
 timeout: 20
 tmpfs: true
+journald: true
 map:
   - addons:rw
   - all_addon_configs:rw
@@ -24,6 +27,7 @@ map:
   - share:rw
   - ssl:ro
 backup_exclude:
+  - "*/.vscode-server/**"
   - "*/.ssh/environment"
 options:
   log_level: info

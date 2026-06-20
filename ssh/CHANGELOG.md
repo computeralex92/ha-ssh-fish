@@ -1,7 +1,10 @@
 # Changelog
 
-## 2.0.3
+## 2.1.0
 
+- Add ingress_stream and ingress_port for improved web terminal performance
+- Add journald logging support
+- Exclude .vscode-server from backups
 - Don't crash when SSH port is enabled but no credentials configured
 - SSH login attempts will be rejected, web terminal continues to work
 
