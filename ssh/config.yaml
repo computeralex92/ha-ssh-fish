@@ -1,5 +1,5 @@
 ---
-version: 1.4.0
+version: 2.0.0
 slug: ssh-fish
 name: Terminal & SSH - Fish edition
 description: Allow logging in remotely to Home Assistant using SSH & Fish shell
@@ -23,12 +23,21 @@ map:
   - media:rw
   - share:rw
   - ssl:ro
+backup_exclude:
+  - "*/.ssh/environment"
 options:
-  authorized_keys: []
-  password: ""
-  apks: []
-  server:
-    tcp_forwarding: false
+  log_level: info
+  ssh:
+    username: root
+    password: ""
+    authorized_keys: []
+    sftp: false
+    compatibility_mode: false
+    allow_agent_forwarding: false
+    allow_remote_port_forwarding: false
+    allow_tcp_forwarding: false
+  packages: []
+  init_commands: []
 panel_icon: mdi:console
 panel_title: Terminal
 ports:
@@ -36,11 +45,19 @@ ports:
 ports_description:
   22/tcp: SSH Port
 schema:
-  authorized_keys:
+  log_level: list(trace|debug|info|notice|warning|error|fatal)?
+  ssh:
+    username: str
+    password: password
+    authorized_keys:
+      - str
+    sftp: bool
+    compatibility_mode: bool
+    allow_agent_forwarding: bool
+    allow_remote_port_forwarding: bool
+    allow_tcp_forwarding: bool
+  packages:
     - str
-  password: password
-  apks:
+  init_commands:
     - str
-  server:
-    tcp_forwarding: bool
 startup: services

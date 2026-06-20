@@ -5,20 +5,28 @@ FROM $BUILD_FROM
 
 # Setup base
 RUN apk add --no-cache \
-        git=2.54.0-r0 \
-        libuv=1.52.1-r0 \
-        mosquitto-clients=2.1.2-r1 \
-        openssh=10.3_p1-r0 \
-        pwgen=2.08-r3 \
-        tmux=3.6b-r0 \
-        ttyd=1.7.7-r0 \
-        neovim=0.12.2-r0 \
-        fish=4.6.0-r1 \
-        htop=3.5.1-r1 \
         bottom=0.12.3-r0 \
         bottom-fish-completion=0.12.3-r0 \
+        fish=4.6.0-r1 \
+        git=2.54.0-r0 \
+        htop=3.5.1-r1 \
+        libuv=1.52.1-r0 \
+        mosquitto-clients=2.1.2-r1 \
+        mtr=0.96-r2 \
+        ncdu=1.22-r2 \
+        neovim=0.12.2-r0 \
+        nmap-ncat=7.99-r0 \
+        openssh=10.3_p1-r0 \
+        pwgen=2.08-r3 \
+        rsync=3.4.3-r1 \
+        screen=5.0.1-r1 \
+        tcpdump=4.99.6-r1 \
+        tmux=3.6b-r0 \
+        ttyd=1.7.7-r0 \
+        wget=1.25.0-r3 \
     && ln -sf /usr/bin/nvim /usr/local/bin/vi \
-    && ln -sf /usr/bin/nvim /usr/local/bin/vim
+    && ln -sf /usr/bin/nvim /usr/local/bin/vim \
+    && ln -sf /usr/bin/nvim /usr/local/bin/neovim
 
 # Use fish as default shell
 RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
@@ -31,6 +39,18 @@ RUN curl -Lso /usr/bin/ha \
     && test -s /usr/bin/ha \
     && chmod a+x /usr/bin/ha \
     && /usr/bin/ha completion fish > /usr/share/fish/completions/ha.fish
+
+# SSH moduli hardening
+RUN awk '$5 >= 3071' /etc/ssh/moduli >/etc/ssh/moduli.safe \
+    && [ -s /etc/ssh/moduli.safe ] \
+    && mv /etc/ssh/moduli.safe /etc/ssh/moduli \
+    || echo "Warning: /etc/ssh/moduli.safe is empty. SSH moduli file not replaced."
+
+# Permission hardening
+RUN chmod 0640 /etc/sudo.conf \
+    && chmod 0750 /etc/sudoers.d \
+    && chmod 0640 /etc/sudoers.d/* \
+    && chmod 0660 /var/log/btmp
 
 # Copy data
 COPY rootfs /

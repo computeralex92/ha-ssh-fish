@@ -19,6 +19,7 @@ Runs on pull requests to `main`:
 - **Lint**: Runs `frenck/action-addon-linter` on the `ssh/` app
 - **Shellcheck**: Lints shell scripts (ignores dotfiles)
 - **Hadolint**: Lints `ssh/Dockerfile`
+- **Prek**: Runs prek checks
 
 ### Release (`release.yaml`)
 Triggers on push to `main`:
@@ -53,3 +54,11 @@ shellcheck ssh/rootfs/etc/services.d/*/run
 ```
 
 Init scripts use `bashio` library from Home Assistant base image.
+
+## Upstream
+
+This repo tracks [hassio-addons/app-ssh](https://github.com/hassio-addons/app-ssh) upstream. When porting changes:
+- Use `git fetch upstream && git diff main..upstream/main -- ssh/` to see upstream changes
+- Keep fish shell as default (upstream uses zsh) — adapt shell-specific scripts accordingly
+- The upstream uses `s6-rc.d` service model; this repo uses the older `cont-init.d/` + `services.d/` layout — translate between them
+- Config is structured with a nested `ssh:` block (match this pattern)

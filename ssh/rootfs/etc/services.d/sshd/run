@@ -2,12 +2,10 @@
 # vim: ft=bash
 # shellcheck shell=bash
 # ==============================================================================
-# Start sshd service if enabled
+# Start sshd service
 # ==============================================================================
 
-# If SSH is disabled, use a fake sleep process
-if ! bashio::var.has_value "$(bashio::addon.port 22)"; then
-    bashio::log.warning "SSH port is disabled. Prevent start of SSH server."
+if ! bashio::var.has_value "$(bashio::app.port 22)"; then
     exec sleep infinity
 fi
 
