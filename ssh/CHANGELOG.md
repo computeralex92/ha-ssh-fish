@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.3
+
+- Don't crash when SSH port is enabled but no credentials configured
+- SSH login attempts will be rejected, web terminal continues to work
+
 ## 2.0.2
 
 - Fix unbound variable error in ssh.sh (AUTHORIZED_KEYS not initialized)
