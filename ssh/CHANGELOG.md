@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.2
+
+- Limit the fish default shell change to the root account only
+- Add `bashio::exit.nok` when setting the SSH account password fails
+- Log security warnings when using the root account or a password for SSH login
+- Document running the `ha` command or Supervisor API non-interactively
+- Document the Web Terminal clipboard copy/paste behavior
+- Add an example to the `packages` option documentation
+- Align the "Preinstalled tools" list in the docs with the actual packages
+
 ## 2.1.1
 
 - Fix web terminal ingress by removing invalid `ingress_port: 0` setting

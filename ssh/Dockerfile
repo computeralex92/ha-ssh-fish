@@ -28,8 +28,8 @@ RUN apk add --no-cache \
     && ln -sf /usr/bin/nvim /usr/local/bin/vim \
     && ln -sf /usr/bin/nvim /usr/local/bin/neovim
 
-# Use fish as default shell
-RUN sed -i "s|/bin/sh|/usr/bin/fish|" /etc/passwd
+# Use fish as default shell (root only)
+RUN sed -i -r -e 's|^(root:.*)/bin/sh$|\1/usr/bin/fish|' /etc/passwd
 
 # Home Assistant CLI
 ARG BUILD_ARCH

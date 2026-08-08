@@ -37,6 +37,18 @@ To copy text from the Web UI:
 To paste text into the Web UI:
 1. Press SHIFT + INSERT.
 
+The Web Terminal is based on xterm.js, which follows X11-style clipboard
+conventions that may differ from what you expect:
+
+- **Copy**: hold `Shift` and select the text with your mouse. The selection is
+  copied to your system clipboard right away (a small scissors icon briefly
+  pops up). There is no need to press `Ctrl+C`.
+- **Paste**: press `Ctrl+Shift+V`, or right-click and choose paste, depending
+  on your browser.
+
+This applies to the Web Terminal in the Home Assistant frontend. A regular SSH
+client uses the clipboard behavior of its own terminal instead.
+
 ### SSH Server Connection
 
 Remote SSH access from the network is disabled by default (See Network below). To connect using an SSH client, such as PuTTY or Linux terminal, you need to supply additional configuration for this app. To enable SSH connectivity, you need to:
@@ -115,6 +127,22 @@ Specifies whether TCP port forwarding (`-L -R` etc.) is permitted. **Note**: Ena
 
 Additional Alpine packages to install in the app container on startup. These are installed every time the app starts. If installation fails, a warning is logged but the app continues.
 
+The packages are installed using Alpine's package manager, so any package name
+from the [Alpine package index][alpine-packages] works. List the package names
+exactly as they appear there. For example:
+
+```yaml
+packages:
+  - iperf3
+  - socat
+  - joe
+```
+
+This installs the packages on every start, so they are always available when
+you log in. Note that package names are not always the same as the command
+they provide (for example, the `ncat` command comes from the `nmap-ncat`
+package).
+
 ### Option: `init_commands`
 
 Shell commands to execute on app startup, after everything is configured. Useful for custom setup tasks. Example:
@@ -133,12 +161,45 @@ Remote SSH access can be disabled again, by clearing the input box, saving the c
 
 ## Preinstalled tools
 
-- **Shell**: fish (with neovim as vi/vim alternative)
+- **Shell**: fish (with neovim as vi/vim/neovim alternative)
 - **Terminal**: tmux, screen
-- **System**: htop, bottom, ncdu, procps-ng
-- **Network**: tcpdump, mtr, nmap-ncat, mosquitto-clients, bind-tools
+- **System**: htop, bottom, ncdu
+- **Network**: tcpdump, mtr, nmap-ncat, mosquitto-clients
 - **File**: rsync, wget, git
-- **Disk**: lsblk
+
+Want a tool that is not listed? Install it permanently by adding the package
+to the `packages` option, or temporarily with the `apk` command.
+
+## Running the `ha` command or Supervisor API non-interactively
+
+When you log in interactively, the app starts a login shell that sets up the
+`SUPERVISOR_TOKEN` environment variable. The `ha` command and the Supervisor
+API need that token, so commands like `ha core info` just work.
+
+Running a command non-interactively does **not** start a login shell, so the
+token is not set and the command fails with a `401` error. For example, this
+fails:
+
+```shell
+ssh your-instance "ha core info"
+```
+
+Wrap the command in a login shell so the environment, and with it the token,
+is loaded:
+
+```shell
+ssh your-instance 'fish -lc "ha core info"'
+```
+
+Or, if you prefer bash:
+
+```shell
+ssh your-instance 'bash -lc "ha core info"'
+```
+
+The same applies when calling the Supervisor API directly or running commands
+from automations: invoke them through a login shell (`fish -lc '...'`) so the
+`SUPERVISOR_TOKEN` is available.
 
 ## Known issues and limitations
 
@@ -153,6 +214,7 @@ Apache License 2.0
 
 In case you've found a bug, please [open an issue on our GitHub][issue].
 
+[alpine-packages]: https://pkgs.alpinelinux.org/packages
 [discord]: https://www.home-assistant.io/join-chat
 [forum]: https://community.home-assistant.io
 [issue]: https://github.com/computeralex92/ha-ssh-fish/issues
