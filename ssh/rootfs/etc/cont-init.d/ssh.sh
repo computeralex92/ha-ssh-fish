@@ -71,6 +71,16 @@ if bashio::config.true 'ssh.compatibility_mode'; then
     sed -i '/^KexAlgorithms /s/^/#/' /etc/ssh/sshd_config
 fi
 
+# Warn about using the root user
+bashio::log.warning 'Logging in with "root" as the username, is security wise a bad idea!'
+bashio::log.warning 'Most attacks against SSH are attempts to login using the "root" username.'
+
+# Warn about using a password
+if bashio::var.has_value "${PASSWORD}"; then
+    bashio::log.warning 'Logging in with a SSH password is security wise, a bad idea!'
+    bashio::log.warning 'Please, consider using a public/private key pair.'
+fi
+
 # Setup authentication
 if bashio::var.has_value "${AUTHORIZED_KEYS}"; then
     bashio::log.info "Setup authorized_keys"
@@ -80,11 +90,13 @@ if bashio::var.has_value "${AUTHORIZED_KEYS}"; then
 
     # Unlock account with random password
     NEWPASSWORD="$(pwgen -s 64 1)"
-    echo "root:${NEWPASSWORD}" | chpasswd 2>/dev/null
+    echo "root:${NEWPASSWORD}" | chpasswd 2> /dev/null \
+        || bashio::exit.nok 'Failed setting the password for the user account'
 elif bashio::var.has_value "${PASSWORD}"; then
     bashio::log.info "Setup password login"
 
-    echo "root:${PASSWORD}" | chpasswd 2>/dev/null
+    echo "root:${PASSWORD}" | chpasswd 2> /dev/null \
+        || bashio::exit.nok 'Failed setting the password for the user account'
 else
     bashio::log.warning "No SSH credentials configured!"
     bashio::log.warning "Set ssh.authorized_keys or ssh.password to enable SSH login."
