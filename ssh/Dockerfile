@@ -9,7 +9,7 @@ RUN apk add --no-cache \
         bottom-fish-completion=0.12.3-r0 \
         fish=4.6.0-r1 \
         git=2.54.0-r0 \
-        htop=3.5.1-r1 \
+        htop=3.5.3-r0 \
         libuv=1.52.1-r0 \
         mosquitto-clients=2.1.2-r1 \
         mtr=0.96-r2 \
