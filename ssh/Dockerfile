@@ -21,7 +21,7 @@ RUN apk add --no-cache \
         rsync=3.4.3-r1 \
         screen=5.0.2-r0 \
         tcpdump=4.99.6-r1 \
-        tmux=3.6b-r0 \
+        tmux=3.7c-r0 \
         ttyd=1.7.7-r0 \
         wget=1.25.0-r3 \
     && ln -sf /usr/bin/nvim /usr/local/bin/vi \
