@@ -18,7 +18,7 @@ RUN apk add --no-cache \
         nmap-ncat=7.99-r0 \
         openssh=10.3_p1-r0 \
         pwgen=2.08-r3 \
-        rsync=3.4.3-r1 \
+        rsync=3.5.0-r0 \
         screen=5.0.2-r0 \
         tcpdump=4.99.6-r1 \
         tmux=3.7c-r0 \
