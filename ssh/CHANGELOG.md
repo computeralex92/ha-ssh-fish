@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.2.0
+
+- Update base image to v21.0.3
+- Update HA CLI to v5.4.0
+- Update packages: openssh 10.3_p1-r1, rsync 3.5.0, tmux 3.7c, htop 3.5.3
+- Update CI and release GitHub Actions
+
 ## 2.1.2
 
 - Limit the fish default shell change to the root account only
