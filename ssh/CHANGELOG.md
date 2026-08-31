@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.0
+
+- Persist `~/.gitconfig` and `~/.vscode-server` across restarts
+- Fix Renovate Alpine package updates by replacing Repology with the Alpine CDN datasource
+
 ## 2.2.0
 
 - Update base image to v21.0.3
