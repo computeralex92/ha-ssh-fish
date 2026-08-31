@@ -17,6 +17,18 @@ if ! bashio::fs.file_exists /data/.fish_config; then
 fi
 chmod 600 /data/.fish_config
 
+# Persist git config
+if ! bashio::fs.file_exists /data/.gitconfig; then
+    touch /data/.gitconfig
+fi
+ln -sf /data/.gitconfig "${HOME}/.gitconfig"
+
+# Persist VS Code server state
+if ! bashio::fs.directory_exists /data/.vscode-server; then
+    mkdir -p /data/.vscode-server
+fi
+ln -sf /data/.vscode-server "${HOME}/.vscode-server"
+
 # Make Home Assistant TOKEN available on the CLI
 mkdir -p /etc/profile.d
 echo "export SUPERVISOR_TOKEN=\"${SUPERVISOR_TOKEN}\"" \
