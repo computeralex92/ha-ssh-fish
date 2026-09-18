@@ -5,6 +5,7 @@ FROM $BUILD_FROM
 
 # Setup base
 RUN apk add --no-cache \
+        bind-tools=9.20.27-r0 \
         bottom=0.12.3-r0 \
         bottom-fish-completion=0.12.3-r0 \
         fish=4.6.0-r1 \
@@ -14,6 +15,7 @@ RUN apk add --no-cache \
         mosquitto-clients=2.1.2-r1 \
         mtr=0.96-r2 \
         ncdu=1.22-r2 \
+        ncurses=6.6_p20260516-r0 \
         neovim=0.12.2-r0 \
         nmap-ncat=7.99-r0 \
         openssh=10.3_p1-r1 \
@@ -51,6 +53,10 @@ RUN chmod 0660 /var/log/btmp 2>/dev/null || true
 
 # Copy data
 COPY rootfs /
+
+# Compile Ghostty's terminfo entry so SSH sessions from Ghostty work
+RUN mkdir -p /etc/terminfo \
+    && tic -x -o /etc/terminfo /usr/share/terminfo-src/xterm-ghostty.terminfo
 
 LABEL \
     io.hass.name="${BUILD_NAME}" \

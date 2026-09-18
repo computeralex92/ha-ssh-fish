@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.5.0
+
+- Add `bind-tools` providing the `host`, `dig`, and `nslookup` commands
+- Add Ghostty's official `xterm-ghostty` terminfo entry so SSH sessions from Ghostty work
+
 ## 2.4.0
 
 - Update base image to v21.0.5
