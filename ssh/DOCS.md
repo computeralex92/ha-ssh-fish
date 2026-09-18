@@ -164,11 +164,18 @@ Remote SSH access can be disabled again, by clearing the input box, saving the c
 - **Shell**: fish (with neovim as vi/vim/neovim alternative)
 - **Terminal**: tmux, screen
 - **System**: htop, bottom, ncdu
-- **Network**: tcpdump, mtr, nmap-ncat, mosquitto-clients
+- **Network**: tcpdump, mtr, nmap-ncat, mosquitto-clients, bind-tools (host, dig, nslookup)
 - **File**: rsync, wget, git
 
 Want a tool that is not listed? Install it permanently by adding the package
 to the `packages` option, or temporarily with the `apk` command.
+
+## Ghostty terminal support
+
+The app includes Ghostty's official `xterm-ghostty` terminfo entry. Connecting
+over SSH from [Ghostty](https://ghostty.org) therefore works without the
+`missing or unsuitable terminal: xterm-ghostty` error, with Ghostty's extended
+capabilities (true color, styled underlines, and so on) available.
 
 ## Running the `ha` command or Supervisor API non-interactively
 
