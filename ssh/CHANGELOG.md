@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.0
+
+- Update base image to v21.0.5
+- Update HA CLI to v5.5.0
+- Update home-assistant/actions GitHub Action
+
 ## 2.3.0
 
 - Persist `~/.gitconfig` and `~/.vscode-server` across restarts
