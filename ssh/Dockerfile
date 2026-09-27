@@ -5,7 +5,7 @@ FROM $BUILD_FROM
 
 # Setup base
 RUN apk add --no-cache \
-        bind-tools=9.20.27-r0 \
+        bind-tools=9.20.29-r0 \
         bottom=0.12.3-r0 \
         bottom-fish-completion=0.12.3-r0 \
         fish=4.6.0-r1 \
