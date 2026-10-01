@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:21.0.6
+ARG BUILD_FROM=ghcr.io/hassio-addons/base:21.0.7
 ARG ALPINE_TAG=3_24
 ARG HA_CLI_VERSION="5.5.0"
 FROM $BUILD_FROM
