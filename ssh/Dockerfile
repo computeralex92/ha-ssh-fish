@@ -18,7 +18,7 @@ RUN apk add --no-cache \
         ncurses=6.6_p20260516-r0 \
         neovim=0.12.2-r0 \
         nmap-ncat=7.99-r0 \
-        openssh=10.3_p1-r1 \
+        openssh=10.3_p1-r2 \
         pwgen=2.08-r3 \
         rsync=3.5.0-r0 \
         screen=5.0.2-r0 \
