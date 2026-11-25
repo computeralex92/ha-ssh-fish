@@ -21,7 +21,7 @@ RUN apk add --no-cache \
         openssh=10.3_p1-r2 \
         pwgen=2.08-r3 \
         rsync=3.5.2-r1 \
-        screen=5.0.2-r0 \
+        screen=5.0.3-r0 \
         tcpdump=4.99.6-r1 \
         tmux=3.7c-r0 \
         ttyd=1.7.7-r0 \
